@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=currencies
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    ports:
+      - '${DB_PORT}:5432'
+    networks:
+      - backend
+  server:
+    depends_on:
+      - db
+    build: ./Dockerfile
+    # environment:
+      # - name=value TODO
+    networks:
+      - backend
+networks:
+  backend:
