@@ -33,7 +33,7 @@ func GetLastBtcUsd(controller *CurrenciesController) func(*gin.Context) {
 // @Schemes
 // @Produce json
 // @Accept json
-// @Param pagination body rest.BtcUsdtPaginationRequest true "pagination" 
+// @Param pagination body rest.BtcUsdtPaginationRequest true "pagination"
 // @Success 200 {object} rest.BtcUsdtHistoryPage
 // @Failure 400 {object} rest.UnexpectedResult
 // @Failure 500 {object} rest.UnexpectedResult
@@ -43,39 +43,39 @@ func GetBtcUsdHistory(controller *CurrenciesController) func(*gin.Context) {
 }
 
 // Currencies godoc
-// @Summary get last fiat to rub course
+// @Summary get last RUB to fiat course
 // @Schemes
 // @Produce json
-// @Success 200 {object} rest.FiatToAnyCourseSlice
+// @Success 200 {object} rest.AnyToFiatCourseSlice
 // @Failure 400 {object} rest.UnexpectedResult
 // @Failure 500 {object} rest.UnexpectedResult
 // @Router /currencies [get]
 func GetLastFiatRub(controller *CurrenciesController) func(*gin.Context) {
-	return controller.GetLastBtcFiatCourse
+	return controller.GetLastRubToFiatCourse
 }
 
 // Currencies godoc
-// @Summary get fiat to rub course history with pagination
+// @Summary get RUB to fiat course history with pagination
 // @Schemes
 // @Produce json
 // @Accept json
-// @Param pagination body rest.FiatPaginationRequest true "pagination" 
-// @Success 200 {object} rest.FiatToAnyHistoryPage
+// @Param pagination body rest.AnyToFiatPaginationRequest true "pagination"
+// @Success 200 {object} rest.AnyToFiatHistoryPage
 // @Failure 400 {object} rest.UnexpectedResult
 // @Failure 500 {object} rest.UnexpectedResult
 // @Router /currencies [post]
 func GetFiatRubHistory(controller *CurrenciesController) func(*gin.Context) {
-	return controller.GetFiatRubCourseHistory
+	return controller.GetRubToFiatCourseHistory
 }
 
 // Currencies godoc
 // @Summary get last fiat to BTC course
 // @Schemes
 // @Produce json
-// @Success 200 {object} rest.FiatToAnyCourseSlice
+// @Success 200 {object} rest.AnyToFiatCourseSlice
 // @Failure 400 {object} rest.UnexpectedResult
 // @Failure 500 {object} rest.UnexpectedResult
 // @Router /latest [get]
 func GetLastBtcFiat(controller *CurrenciesController) func(*gin.Context) {
-	return controller.GetLastBtcFiatCourse
+	return controller.GetLastBtcToFiatCourse
 }

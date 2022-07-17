@@ -1,5 +1,32 @@
 basePath: /api
 definitions:
+  rest.AnyToFiatCourseSlice:
+    description: has additional fields consist of currency code and amount, but cant
+      image here
+    properties:
+      base_currency:
+        type: string
+      date:
+        type: string
+    type: object
+  rest.AnyToFiatHistoryPage:
+    properties:
+      history:
+        items:
+          $ref: '#/definitions/rest.AnyToFiatCourseSlice'
+        type: array
+      total:
+        type: integer
+    type: object
+  rest.AnyToFiatPaginationRequest:
+    properties:
+      from_date:
+        type: string
+      limit:
+        type: integer
+      offset:
+        type: integer
+    type: object
   rest.BtcUsdtCourseSlice:
     properties:
       timestamp:
@@ -23,33 +50,6 @@ definitions:
       limit:
         type: integer
       offset:
-        type: integer
-    type: object
-  rest.FiatPaginationRequest:
-    properties:
-      from_date:
-        type: string
-      limit:
-        type: integer
-      offset:
-        type: integer
-    type: object
-  rest.FiatToAnyCourseSlice:
-    description: has additional fields consist of currency code and amount, but cant
-      image here
-    properties:
-      base_currency:
-        type: string
-      date:
-        type: string
-    type: object
-  rest.FiatToAnyHistoryPage:
-    properties:
-      history:
-        items:
-          $ref: '#/definitions/rest.FiatToAnyCourseSlice'
-        type: array
-      total:
         type: integer
     type: object
   rest.UnexpectedResult:
@@ -114,7 +114,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/rest.FiatToAnyCourseSlice'
+            $ref: '#/definitions/rest.AnyToFiatCourseSlice'
         "400":
           description: Bad Request
           schema:
@@ -123,7 +123,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/rest.UnexpectedResult'
-      summary: get last fiat to rub course
+      summary: get last RUB to fiat course
     post:
       consumes:
       - application/json
@@ -133,14 +133,14 @@ paths:
         name: pagination
         required: true
         schema:
-          $ref: '#/definitions/rest.FiatPaginationRequest'
+          $ref: '#/definitions/rest.AnyToFiatPaginationRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/rest.FiatToAnyHistoryPage'
+            $ref: '#/definitions/rest.AnyToFiatHistoryPage'
         "400":
           description: Bad Request
           schema:
@@ -149,7 +149,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/rest.UnexpectedResult'
-      summary: get fiat to rub course history with pagination
+      summary: get RUB to fiat course history with pagination
   /latest:
     get:
       produces:
@@ -158,7 +158,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/rest.FiatToAnyCourseSlice'
+            $ref: '#/definitions/rest.AnyToFiatCourseSlice'
         "400":
           description: Bad Request
           schema:

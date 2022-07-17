@@ -7,17 +7,15 @@ type BtcUsdtCourseSlice struct {
 	Timestamp uint64  `json:"timestamp"`
 }
 
-type BtcFiatCourseSlice map[string]float64
-
 // @description has additional fields consist of currency code and amount, but cant image here
-type FiatToAnyCourseSlice struct {
+type AnyToFiatCourseSlice struct {
 	Currencies   map[string]float64 `json:"-"`
 	BaseCurrency string             `json:"base_currency"`
 	Date         DateOnly           `json:"date"`
 }
 
-func (slice FiatToAnyCourseSlice) MarshalJSON() ([]byte, error) {
-	type slice_ FiatToAnyCourseSlice
+func (slice AnyToFiatCourseSlice) MarshalJSON() ([]byte, error) {
+	type slice_ AnyToFiatCourseSlice
 	b, err := json.Marshal(slice_(slice))
 	if err != nil {
 		return nil, err

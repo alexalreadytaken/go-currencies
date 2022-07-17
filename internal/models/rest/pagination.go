@@ -5,12 +5,12 @@ type BtcUsdtHistoryPage struct {
 	History []BtcUsdtCourseSlice `json:"history"`
 }
 
-type FiatToAnyHistoryPage struct {
+type AnyToFiatHistoryPage struct {
 	Total   int                    `json:"total"`
-	History []FiatToAnyCourseSlice `json:"history"`
+	History []AnyToFiatCourseSlice `json:"history"`
 }
 
-type FiatPaginationRequest struct {
+type AnyToFiatPaginationRequest struct {
 	Limit    uint     `json:"limit"`
 	Offset   uint     `json:"offset"`
 	FromDate DateOnly `json:"from_date"`
