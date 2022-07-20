@@ -10,14 +10,13 @@ import (
 	"github.com/alexalreadytaken/go-currencies/internal/models/rest"
 	"github.com/alexalreadytaken/go-currencies/internal/repos"
 	"github.com/gin-gonic/gin"
-	"gorm.io/datatypes"
 )
 
 type CurrenciesController struct {
-	repo *repos.CurrenciesRepo
+	repo *repos.GormCurrenciesRepo
 }
 
-func NewCurrenciesController(repo *repos.CurrenciesRepo) *CurrenciesController {
+func NewCurrenciesController(repo *repos.GormCurrenciesRepo) *CurrenciesController {
 	return &CurrenciesController{
 		repo: repo,
 	}
@@ -126,7 +125,7 @@ func (c *CurrenciesController) getAnyToFiatHistory(g *gin.Context, baseCurrencry
 		baseCurrencryCode,
 		pagination.Limit,
 		pagination.Offset,
-		datatypes.Date(pagination.FromDate))
+		time.Time(pagination.FromDate))
 	if err != nil {
 		msg := "error while getting rub to fiat course"
 		log.Println(msg, err)

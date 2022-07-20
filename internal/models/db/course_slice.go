@@ -2,18 +2,16 @@ package db
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type BtcUsdtCourseSlice struct {
-	gorm.Model
+	ID        uint
 	Value     float64
 	Timestamp time.Time
 }
 
 type AnyToFiatCourseSlice struct {
-	gorm.Model
+	ID               uint
 	BaseCurrencyCode string
 	FiatCode         string
 	Value            float64

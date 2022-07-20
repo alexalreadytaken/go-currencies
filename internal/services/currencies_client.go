@@ -9,6 +9,12 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
+type CurrenciesCourseProducer interface {
+	GetBtcUsdCourse() (float64, error)
+
+	GetRubToFiatCourse() (*rest.FiatPricesResposnse, error)
+}
+
 type CurrenciesClient struct {
 	resty                  *resty.Client
 	coinsApiKey            string

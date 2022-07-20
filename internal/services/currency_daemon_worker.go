@@ -11,13 +11,13 @@ import (
 )
 
 type CurrencyDaemonWorker struct {
-	client *CurrenciesClient
-	repo   *repos.CurrenciesRepo
+	producer CurrenciesCourseProducer
+	repo     repos.CurrenciesRepo
 
 	latestBtcUsdCourse float64
 }
 
-func NewCurrencyDaemonWorker(client *CurrenciesClient, repo *repos.CurrenciesRepo) (*CurrencyDaemonWorker, error) {
+func NewCurrencyDaemonWorker(producer CurrenciesCourseProducer, repo repos.CurrenciesRepo) (*CurrencyDaemonWorker, error) {
 	latest, err := repo.GetLastBtcUsdt()
 	if err != nil {
 		return nil, fmt.Errorf("can't get info about latest btc usd course for caching = %s", err.Error())
@@ -25,12 +25,12 @@ func NewCurrencyDaemonWorker(client *CurrenciesClient, repo *repos.CurrenciesRep
 	return &CurrencyDaemonWorker{
 		latestBtcUsdCourse: latest.Value,
 		repo:               repo,
-		client:             client,
+		producer:           producer,
 	}, nil
 }
 
 func (worker *CurrencyDaemonWorker) GetBtcUsdtCourseAndStore() {
-	course, err := worker.client.GetBtcUsdCourse()
+	course, err := worker.producer.GetBtcUsdCourse()
 	t := time.Now()
 	if err != nil {
 		log.Printf("error while getting btc usd course = %s", err.Error())
@@ -103,7 +103,7 @@ func (worker *CurrencyDaemonWorker) GetRubToFiatCourseAndStore() {
 		log.Println("rub to fiat course today already saved, skip")
 		return
 	}
-	course, err := worker.client.GetRubToFiatCourse()
+	course, err := worker.producer.GetRubToFiatCourse()
 	if err != nil {
 		log.Printf("error while getting rub to fiat course = %s", err.Error())
 		return
