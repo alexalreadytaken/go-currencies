@@ -21,11 +21,24 @@ func (d *DateOnly) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (d DateOnly) MarshalJSON() ([]byte, error) {
-	year, month, day := time.Time(d).Date()
-	return json.Marshal(fmt.Sprintf("%d-%d-%d", year, month, day))
+func (dt DateOnly) MarshalJSON() ([]byte, error) {
+	time := time.Time(dt)
+	year, m, d := time.Year(), time.Month(), time.Day()
+	var month string
+	if m > 10 {
+		month = fmt.Sprintf("%d", m)
+	} else {
+		month = fmt.Sprintf("0%d", m)
+	}
+	var day string
+	if d > 10 {
+		day = fmt.Sprintf("%d", d)
+	} else {
+		day = fmt.Sprintf("0%d", d)
+	}
+	return json.Marshal(fmt.Sprintf("%d-%s-%s", year, month, day))
 }
 
-func (d DateOnly) Format(s string) string {
-	return time.Time(d).Format(s)
+func (dt DateOnly) Format(s string) string {
+	return time.Time(dt).Format(s)
 }

@@ -13,10 +13,10 @@ import (
 )
 
 type CurrenciesController struct {
-	repo *repos.GormCurrenciesRepo
+	repo repos.CurrenciesRepo
 }
 
-func NewCurrenciesController(repo *repos.GormCurrenciesRepo) *CurrenciesController {
+func NewCurrenciesController(repo repos.CurrenciesRepo) *CurrenciesController {
 	return &CurrenciesController{
 		repo: repo,
 	}
@@ -39,7 +39,7 @@ func (c *CurrenciesController) GetLastBtcUsdtCourse(g *gin.Context) {
 
 func (c *CurrenciesController) GetBtcUsdtCourseHistory(g *gin.Context) {
 	var pagination rest.BtcUsdtPaginationRequest
-	if err := g.Bind(&pagination); err != nil {
+	if err := g.BindJSON(&pagination); err != nil {
 		msg := "invalid pagination format="
 		log.Println(msg, err)
 		g.AbortWithStatusJSON(http.StatusBadRequest,
@@ -49,7 +49,7 @@ func (c *CurrenciesController) GetBtcUsdtCourseHistory(g *gin.Context) {
 	total, history, err := c.repo.GetBtcUsdtHistory(
 		pagination.Limit,
 		pagination.Offset,
-		time.Unix(int64(pagination.FromTime), 0))
+		time.Unix(pagination.FromTime, 0))
 	if err != nil {
 		msg := "error while getting info about btc usdt course"
 		log.Println(msg, err)
@@ -114,7 +114,7 @@ func (c *CurrenciesController) getLastAnyToFiat(g *gin.Context, baseCurrencryCod
 
 func (c *CurrenciesController) getAnyToFiatHistory(g *gin.Context, baseCurrencryCode string) {
 	var pagination rest.AnyToFiatPaginationRequest
-	if err := g.Bind(&pagination); err != nil {
+	if err := g.BindJSON(&pagination); err != nil {
 		msg := "invalid pagination format="
 		log.Println(msg, err)
 		g.AbortWithStatusJSON(http.StatusBadRequest,

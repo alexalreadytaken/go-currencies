@@ -18,7 +18,7 @@ type AnyToFiatPaginationRequest struct {
 
 //todo cut limit and offset
 type BtcUsdtPaginationRequest struct {
-	Limit    uint   `json:"limit"`
-	Offset   uint   `json:"offset"`
-	FromTime uint64 `json:"from_timestamp"`
+	Limit    uint  `json:"limit"`
+	Offset   uint  `json:"offset"`
+	FromTime int64 `json:"from_timestamp"`
 }
